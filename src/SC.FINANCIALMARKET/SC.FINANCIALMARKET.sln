@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Application", "1 - Application", "{08257CDE-994E-4449-A519-33A7363A7550}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Domain", "2 - Domain", "{10786D6B-AC17-4F75-BE6E-C9059A3E192D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.FINANCIALMARKET.DOMAIN", "SC.FINANCIALMARKET.DOMAIN\SC.FINANCIALMARKET.DOMAIN.csproj", "{CDF495F4-ADCC-45CB-88D8-06FA24CB2346}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC.FINANCIALMARKET.API", "SC.FINANCIALMARKET.API\SC.FINANCIALMARKET.API.csproj", "{FA0D2B57-4ED0-49C5-BF36-236381657D1E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDF495F4-ADCC-45CB-88D8-06FA24CB2346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF495F4-ADCC-45CB-88D8-06FA24CB2346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF495F4-ADCC-45CB-88D8-06FA24CB2346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF495F4-ADCC-45CB-88D8-06FA24CB2346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA0D2B57-4ED0-49C5-BF36-236381657D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA0D2B57-4ED0-49C5-BF36-236381657D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA0D2B57-4ED0-49C5-BF36-236381657D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA0D2B57-4ED0-49C5-BF36-236381657D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CDF495F4-ADCC-45CB-88D8-06FA24CB2346} = {10786D6B-AC17-4F75-BE6E-C9059A3E192D}
+		{FA0D2B57-4ED0-49C5-BF36-236381657D1E} = {08257CDE-994E-4449-A519-33A7363A7550}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38D67D8A-6C3B-4832-B2DF-0C31173F91E8}
+	EndGlobalSection
+EndGlobal

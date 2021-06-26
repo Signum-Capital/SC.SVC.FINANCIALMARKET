@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SC.INFRA.INFRAESTRUCTURE" Version="2.3.0" />
+    <PackageReference Include="SC.PKG.SERVICES" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

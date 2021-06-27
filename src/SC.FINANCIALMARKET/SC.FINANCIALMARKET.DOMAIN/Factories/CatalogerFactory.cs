@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Data.Config;
+using IqOptionApi.Models;
+using SC.FINANCIALMARKET.DOMAIN.Models;
+using SC.INFRA.INFRAESTRUCTURE.DB.FINANCIALMARKETDATA;
+using SC.PKG.SERVICES.Factory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace SC.FINANCIALMARKET.DOMAIN.Factories
 {
-    public class CatalogerFactory
+    public class CatalogerFactory : Factory<List<ResultadoItem>>
     {
         public Exception Error { get; set; }
 
@@ -18,16 +24,28 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
 
         Consulta _consulta { get; set; }
-        ContextAnalytics _context { get; set; }
+        FinancialMarketDataContext _context { get; set; }
 
 
-        public CatalogerFactory(Consulta consulta)
+        public CatalogerFactory(Consulta consulta, FinancialMarketDataContext context)
         {
             _consulta = consulta;
-            _context = new ContextAnalytics();
+            _context = context;
         }
 
-        public void Query()
+        public async override Task<List<ResultadoItem>> ProduceAsync()
+        {
+            Query();
+            return Resultado.ResultadoItens.ToList();
+        }
+
+
+
+
+        /// <summary>
+        /// Código não está devidamente padronizado no pattern pois foi extraido da plataforma anterior.
+        /// </summary>
+        private void Query()
         {
             var Paridades = _consulta.Paridades.ToUpper().Replace(" ", "").Split(",");
 
@@ -251,5 +269,6 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             }
         }
 
+        
     }
 }

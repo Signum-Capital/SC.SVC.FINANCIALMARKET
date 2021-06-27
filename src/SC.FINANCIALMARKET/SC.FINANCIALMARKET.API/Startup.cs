@@ -1,3 +1,4 @@
+using Data.Config;
 using Infra.Dependencies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SC.FINANCIALMARKET.DOMAIN.Configuration;
+using SC.PKG.SERVICES.Filters;
 
 namespace SC.FINANCIALMARKET.API
 {
@@ -23,6 +25,13 @@ namespace SC.FINANCIALMARKET.API
         {
             services.AddControllers();
             services.ResolveDependenciesRepository();
+            services.AddDbContext<FinancialMarketDataContext>();
+
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<PlataformAuthorizationFilter>();
+            });
+
             services.SwaggerConfigure();
         }
 
@@ -32,9 +41,14 @@ namespace SC.FINANCIALMARKET.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SC.FINANCIALMARKET.API v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SC.FINANCIALMARKET.API v1");
+                c.RoutePrefix = "docs";
+            });
 
             app.UseHttpsRedirection();
 

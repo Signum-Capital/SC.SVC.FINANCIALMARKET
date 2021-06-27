@@ -14,8 +14,4 @@
     <ProjectReference Include="..\SC.FINANCIALMARKET.DOMAIN\SC.FINANCIALMARKET.DOMAIN.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\V1\Models\" />
-  </ItemGroup>
-
 </Project>

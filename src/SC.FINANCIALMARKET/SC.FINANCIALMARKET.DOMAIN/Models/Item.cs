@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using IqOptionApi.Models;
+using SC.INFRA.INFRAESTRUCTURE.DB.FINANCIALMARKETDATA;
+using System.Text.Json.Serialization;
 
 namespace SC.FINANCIALMARKET.DOMAIN.Models
 {

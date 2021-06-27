@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SC.FINANCIALMARKET.API.Areas.V1.Models;
 using SC.FINANCIALMARKET.DOMAIN.Factories;
 using SC.INFRA.INFRAESTRUCTURE.DB.FINANCIALMARKETDATA;
+using SC.PKG.SERVICES.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,19 +24,7 @@ namespace SC.FINANCIALMARKET.API.Areas.V1.Controllers
         [HttpPost("Catalogar")]
         public IActionResult Post(ConsultaRequest consultaRequest)
         {
-            var consulta = new Consulta
-            {
-                Nome = consultaRequest.Nome,
-                Paridades = consultaRequest.Paridades,
-                TotalLoss = consultaRequest.TotalLoss,
-                PorcentagemVelas = consultaRequest.PorcentagemVelas,
-                TotalDias = consultaRequest.TotalDias,
-                TimeFrame = consultaRequest.TimeFrame,
-                Tendencia = consultaRequest.Tendencia,
-                Gale = consultaRequest.Gale,
-                Data = consultaRequest.Data
-            };
-
+            var consulta = ConvertObject.Convert<Consulta>(consultaRequest);
             var factory = new CatalogerFactory(consulta, FinancialMarketDataContext).Produce();
             return Result(factory);
         }

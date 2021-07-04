@@ -22,7 +22,7 @@ jobs:
   
     - name: Build with dotnet
       run: |
-        cd ${{CAMINHO_PROJETO}}
+        cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
         dotnet build --configuration Release     
         
     - name: Dot net Publish

@@ -23,12 +23,12 @@ jobs:
     - name: Restore
       run: |
         cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-        dotnet restore
+        dotnet restore --packages http://package.signumcapital.net/nuget
   
     - name: Build with dotnet
       run: |
         cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-        dotnet build --configuration Release --packages http://package.signumcapital.net/nuget
+        dotnet build --configuration Release
         
     - name: Dot net Publish
       run: |

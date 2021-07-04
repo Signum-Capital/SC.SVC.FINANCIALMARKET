@@ -21,7 +21,9 @@ jobs:
         dotnet-version: 5.0.x
   
     - name: Build with dotnet
-      run: dotnet build --configuration Release     
+      run: |
+        cd ${{CAMINHO_PROJETO}}
+        dotnet build --configuration Release     
         
     - name: Dot net Publish
       run: |

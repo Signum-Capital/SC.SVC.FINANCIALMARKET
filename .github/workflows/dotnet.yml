@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Access path
-      run: cd SC.SVC.FINANCIALMARKET/src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/
+      run: cd ../../SC.SVC.FINANCIALMARKET/src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/
     - name: Restore
       run: dotnet restore
     - name: Build

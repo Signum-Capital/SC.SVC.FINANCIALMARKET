@@ -1,6 +1,6 @@
-﻿using Data.Config;
-using IqOptionApi.Models;
+﻿using IqOptionApi.Models;
 using SC.FINANCIALMARKET.DOMAIN.Models;
+using SC.INFRA.INFRAESTRUCTURE.Contexts;
 using SC.INFRA.INFRAESTRUCTURE.DB.FINANCIALMARKETDATA;
 using SC.PKG.SERVICES.Factory;
 using System;
@@ -38,9 +38,6 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             Query();
             return Resultado.ResultadoItens.ToList();
         }
-
-
-
 
         /// <summary>
         /// Código não está devidamente padronizado no pattern pois foi extraido da plataforma anterior.

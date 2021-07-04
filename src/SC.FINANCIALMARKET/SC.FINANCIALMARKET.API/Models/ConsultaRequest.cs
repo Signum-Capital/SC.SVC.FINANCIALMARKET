@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SC.FINANCIALMARKET.API.Areas.V1.Models
+namespace SC.FINANCIALMARKET.API.Models
 {
     public class ConsultaRequest
     {
@@ -16,5 +16,6 @@ namespace SC.FINANCIALMARKET.API.Areas.V1.Models
         public double PorcentagemVelas { get; set; }
         public int Gale { get; set; }
         public DateTime Data { get; set; }
+        public string ConnectionId { get; set; }
     }
 }

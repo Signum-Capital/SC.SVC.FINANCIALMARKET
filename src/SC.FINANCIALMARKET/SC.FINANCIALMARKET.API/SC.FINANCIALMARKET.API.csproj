@@ -5,13 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-    <PackageReference Include="SC.INFRA.INFRAESTRUCTURE" Version="2.3.0" />
+    <PackageReference Include="SC.INFRA.INFRAESTRUCTURE" Version="2.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SC.FINANCIALMARKET.DOMAIN\SC.FINANCIALMARKET.DOMAIN.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\V1\Models\" />
+    <Folder Include="Areas\V2\Models\" />
   </ItemGroup>
 
 </Project>

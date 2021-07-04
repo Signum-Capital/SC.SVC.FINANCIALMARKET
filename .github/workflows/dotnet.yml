@@ -43,6 +43,6 @@ jobs:
         PORT: ${{ secrets.REMOTE_PORT }}
         KEY: ${{ secrets.SERVER_SSH_KEY }}
       with:
-        source: "outputDirectory"
+        source: "./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory"
         target: "C:\\Projects\\SignumCapital\\SIGNUM.FINANCIALMARKET"
 

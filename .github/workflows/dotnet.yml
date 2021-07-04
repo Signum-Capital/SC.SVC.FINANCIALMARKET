@@ -32,6 +32,7 @@ jobs:
         
     - name: Dot net Publish
       run: |
+                cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
                 dotnet publish --configuration Release -o outputDirectory
     
     - name: Push Server

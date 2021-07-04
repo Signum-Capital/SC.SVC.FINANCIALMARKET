@@ -28,7 +28,7 @@ jobs:
     - name: Build with dotnet
       run: |
         cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-        dotnet build --configuration Release     
+        dotnet build --configuration Release --packages http://package.signumcapital.net/nuget
         
     - name: Dot net Publish
       run: |

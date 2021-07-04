@@ -1,0 +1,46 @@
+name: .NET
+
+on:
+  push:
+    branches: [ Master ]
+  pull_request:
+    branches: [ Master ]
+
+jobs:
+  build:
+    env:
+      CAMINHO_PROJETO: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+      
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    
+    - name: Restore
+      run: |
+        cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+        dotnet restore
+  
+    - name: Build with dotnet
+      run: |
+        cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+        dotnet build --configuration Release     
+        
+    - name: Dot net Publish
+      run: |
+                dotnet publish --configuration Release -o outputDirectory
+    
+    - name: Push Server
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.REMOTE_HOST }}
+        USERNAME: ${{ secrets.REMOTE_USER }}
+        PORT: ${{ secrets.REMOTE_PORT }}
+        KEY: ${{ secrets.SERVER_SSH_KEY }}
+      with:
+        source: "outputDirectory"
+        target: "C:\\Projects\\SignumCapital\\SIGNUM.FINANCIALMARKET"

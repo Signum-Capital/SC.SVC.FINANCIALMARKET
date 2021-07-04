@@ -22,7 +22,7 @@ jobs:
     
     - name: Restore
       run: |
-        cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+        cd ./src/SC.FINANCIALMARKET
         dotnet restore
   
     - name: Build with dotnet

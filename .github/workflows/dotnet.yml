@@ -7,10 +7,7 @@ on:
     branches: [ Master ]
 
 jobs:
-  build:
-    env:
-      CAMINHO_PROJETO: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-      
+  PREPARANDO:      
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +16,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    
+        
     - name: Restore
       run: |
         cd ./src/SC.FINANCIALMARKET

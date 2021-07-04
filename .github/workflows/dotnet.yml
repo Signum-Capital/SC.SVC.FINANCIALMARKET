@@ -45,3 +45,4 @@ jobs:
       with:
         source: "outputDirectory"
         target: "C:\\Projects\\SignumCapital\\SIGNUM.FINANCIALMARKET"
+

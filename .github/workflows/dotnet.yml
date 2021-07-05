@@ -42,7 +42,7 @@ jobs:
         # FTP Server.
         server: 173.225.105.164
         # FTP User.
-        user: Adm
+        user: rodrigo
         # FTP Password.
         password: 1996Rodrigo
         # Local directory.

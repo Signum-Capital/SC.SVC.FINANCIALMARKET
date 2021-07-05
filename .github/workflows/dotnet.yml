@@ -57,9 +57,9 @@ jobs:
         # SSHPASS host
         host: 173.225.105.164
         # SSHPASS username
-        username: Administrator
+        user: Administrator
         # SSHPASS password
-        password: SoVi@#2020
+        pass: SoVi@#2020
         # SSHPASS commands to run
         run: |
                 %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                

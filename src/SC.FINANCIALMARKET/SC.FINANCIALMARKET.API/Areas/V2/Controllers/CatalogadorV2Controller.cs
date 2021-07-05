@@ -42,5 +42,11 @@ namespace SC.FINANCIALMARKET.API.Areas.V2.Controllers
 
             return Ok();
         }
+
+        [HttpGet("checkStatus")]
+        public IActionResult CheckStatus()
+        {
+            return Ok();
+        }
     }
 }

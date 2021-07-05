@@ -5,9 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="nuget.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="nuget.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-    <PackageReference Include="SC.INFRA.INFRAESTRUCTURE" Version="2.3.1" />
+    <PackageReference Include="SC.INFRA.INFRAESTRUCTURE" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 

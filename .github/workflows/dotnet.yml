@@ -33,12 +33,21 @@ jobs:
                   mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
                   tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
 
+      - name: Finalizando Build
+        uses: actions/upload-artifact@v2
+        with: 
+          name: build
 
     Step2:
       name: Deploy
       runs-on: ubuntu-latest
       needs: [Step1]
       steps:
+        - name: Preparando Upload
+          uses: actions/download-artifact@v2
+          with:
+            name: build
+      
         - name: Enviando para servidor
           uses: airvzxf/ftp-deployment-action@latest
           with:

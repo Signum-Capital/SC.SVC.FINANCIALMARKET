@@ -38,6 +38,6 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
         REMOTE_HOST: 173.225.105.164
         REMOTE_USER: Administrator
-        SOURCE: "./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory"
+        SOURCE: "/src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory"
         TARGET: "C:\\Projects\\SignumCapital\\SIGNUM.FINANCIALMARKET"
 

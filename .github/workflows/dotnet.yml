@@ -52,7 +52,7 @@ jobs:
         remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 
     - name: Preparando Serviço
-      uses: matheusvanzan/sshpass-action@v1
+      uses: matheusvanzan/sshpass-action@v2
       with:
         # SSHPASS host
         host: 173.225.105.164
@@ -66,4 +66,4 @@ jobs:
                 cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
                 tar -xzvf compact.tar.gz
                 %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"
-  
+

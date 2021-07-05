@@ -59,7 +59,7 @@ jobs:
             # FTP Password.
             password: ${{ secrets.REMOTE_FTP_PASS }}
             # Local directory.
-            local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
+            local_dir: ./
             # Remote directory.
             remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 

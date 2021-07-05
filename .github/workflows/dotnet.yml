@@ -51,7 +51,7 @@ jobs:
         # Remote directory.
         remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 
-    - name: Preparando Serviço
+    - name: Acessar pasta do projeto
       uses: matheusvanzan/sshpass-action@v2
       with:
         # SSHPASS host
@@ -61,12 +61,41 @@ jobs:
         # SSHPASS password
         pass: SoVi@#2020
         # SSHPASS commands to run
-        run: |
-                  cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
-                  
-                  %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
-                  
-                  tar -xzvf compact.tar.gz
-                  
-                  %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"
+        run: 'cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET'
 
+    - name: Parar pool
+      uses: matheusvanzan/sshpass-action@v2
+      with:
+        # SSHPASS host
+        host: 173.225.105.164
+        # SSHPASS username
+        user: Administrator
+        # SSHPASS password
+        pass: SoVi@#2020
+        # SSHPASS commands to run
+        run: '%SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'
+                
+    - name: Descompactar arquivos
+      uses: matheusvanzan/sshpass-action@v2
+      with:
+        # SSHPASS host
+        host: 173.225.105.164
+        # SSHPASS username
+        user: Administrator
+        # SSHPASS password
+        pass: SoVi@#2020
+        # SSHPASS commands to run
+        run: 'tar -xzvf compact.tar.gz'
+                  
+                  
+    - name: Iniciar pool
+      uses: matheusvanzan/sshpass-action@v2
+      with:
+        # SSHPASS host
+        host: 173.225.105.164
+        # SSHPASS username
+        user: Administrator
+        # SSHPASS password
+        pass: SoVi@#2020
+        # SSHPASS commands to run
+        run: '%SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'

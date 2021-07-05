@@ -46,7 +46,7 @@ jobs:
         # FTP Password.
         password: 1996Rodrigo
         # Local directory.
-        local_dir: /src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact.tar.gz
+        local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact.tar.gz
         # Remote directory.
         remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 

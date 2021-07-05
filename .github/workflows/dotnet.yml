@@ -51,18 +51,6 @@ jobs:
         # Remote directory.
         remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 
-    - name: Acessar pasta do projeto
-      uses: matheusvanzan/sshpass-action@v2
-      with:
-        # SSHPASS host
-        host: 173.225.105.164
-        # SSHPASS username
-        user: Administrator
-        # SSHPASS password
-        pass: SoVi@#2020
-        # SSHPASS commands to run
-        run: 'cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET'
-
     - name: Parar pool
       uses: matheusvanzan/sshpass-action@v2
       with:
@@ -85,8 +73,9 @@ jobs:
         # SSHPASS password
         pass: SoVi@#2020
         # SSHPASS commands to run
-        run: 'tar -xzvf compact.tar.gz'
-                  
+        run: |
+          cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
+          tar -xzvf compact.tar.gz'
                   
     - name: Iniciar pool
       uses: matheusvanzan/sshpass-action@v2

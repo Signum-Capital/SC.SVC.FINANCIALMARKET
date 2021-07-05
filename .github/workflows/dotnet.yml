@@ -75,7 +75,7 @@ jobs:
         # SSHPASS commands to run
         run: |
           cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
-          tar -xzvf compact.tar.gz'
+          tar -xzvf compact.tar.gz
                   
     - name: Iniciar pool
       uses: matheusvanzan/sshpass-action@v2

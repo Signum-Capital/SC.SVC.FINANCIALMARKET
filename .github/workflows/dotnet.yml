@@ -33,16 +33,15 @@ jobs:
                 dotnet publish --configuration Release -o outputDirectory
 
     - name: Push Server
-      uses: airvzxf/ftp-deployment-action@latest
       with:
-        # FTP Server.
-        server: 173.225.105.164
-        # FTP User.
-        user: rodrigo
-        # FTP Password.
-        password: 1996Rodrigo
-        # Local directory.
-        local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory
-        # Remote directory.
-        remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
-
+        # SSHPASS host
+        host: 173.225.105.164
+        # SSHPASS username
+        username: Administrator
+        # SSHPASS password
+        password: SoVi@#2020
+        # SSHPASS commands to run
+        run: |
+                %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
+                pscp  ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET                
+                %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"

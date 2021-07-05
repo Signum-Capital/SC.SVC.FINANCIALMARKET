@@ -37,6 +37,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: build
+          path: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
 
     Step2:
       name: Deploy

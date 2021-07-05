@@ -33,11 +33,16 @@ jobs:
                 dotnet publish --configuration Release -o outputDirectory
 
     - name: Push Server
-      uses: easingthemes/ssh-deploy@v2.2.11
+      uses: airvzxf/ftp-deployment-action@latest
       with:
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        REMOTE_HOST: 173.225.105.164
-        REMOTE_USER: Administrator
-        SOURCE: "src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory"
-        TARGET: "C:\\Projects\\SignumCapital\\SIGNUM.FINANCIALMARKET"
+        # FTP Server.
+        server: 173.225.105.164
+        # FTP User.
+        user: rodrigo
+        # FTP Password.
+        password: 1996Rodrigo
+        # Local directory.
+        local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory
+        # Remote directory.
+        remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 

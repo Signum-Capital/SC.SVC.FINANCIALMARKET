@@ -22,12 +22,12 @@ jobs:
     #    cd ./src/SC.FINANCIALMARKET
     #    dotnet restore
   
-    - name: Build with dotnet
-      run: |
-        cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-        dotnet build --configuration Release
+    #- name: Build with dotnet
+    #  run: |
+    #    cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+    #    dotnet build --configuration Release
         
-    - name: Dot net Publish
+    - name: Publicando projeto
       run: |
                 cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
                 dotnet publish --configuration Release -o outputDirectory
@@ -37,7 +37,7 @@ jobs:
               mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
               tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
 
-    - name: Push Server
+    - name: Enviando para servidor
       uses: airvzxf/ftp-deployment-action@latest
       with:
         # FTP Server.
@@ -51,4 +51,19 @@ jobs:
         # Remote directory.
         remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 
+    - name: Preparando Serviço
+      uses: matheusvanzan/sshpass-action@v1
+      with:
+        # SSHPASS host
+        host: 173.225.105.164
+        # SSHPASS username
+        username: Administrator
+        # SSHPASS password
+        password: SoVi@#2020
+        # SSHPASS commands to run
+        run: |
+                %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
+                cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
+                tar -xzvf compact.tar.gz
+                %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"
   

@@ -34,7 +34,7 @@ jobs:
 
     - name: Compactando pasta
       run: |
-              tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact.tar.gz ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory
+              tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory
 
     - name: Push Server
       uses: airvzxf/ftp-deployment-action@latest
@@ -46,7 +46,7 @@ jobs:
         # FTP Password.
         password: 1996Rodrigo
         # Local directory.
-        local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact.tar.gz
+        local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
         # Remote directory.
         remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 

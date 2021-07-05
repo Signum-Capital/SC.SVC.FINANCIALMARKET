@@ -31,11 +31,7 @@ jobs:
       run: |
                 cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
                 dotnet publish --configuration Release -o outputDirectory
-    
-    - name: echo
-      run: |
-              echo ${{ secrets.SERVER_SSH_KEY }}
-    
+
     - name: Push Server
       uses: easingthemes/ssh-deploy@v2.2.11
       with:

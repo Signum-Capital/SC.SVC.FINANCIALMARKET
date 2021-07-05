@@ -8,7 +8,7 @@ on:
 
 jobs:
     Step1:
-      name: Preparando Serviço
+      name: Build
       runs-on: ubuntu-latest
 
       steps:
@@ -17,32 +17,27 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
-     
+      
+      - name: Build with dotnet
+        run: |
+          cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+          dotnet build --configuration Release
+
+      - name: Publicando projeto
+        run: |
+                  cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+                  dotnet publish --configuration Release -o outputDirectory
+
+      - name: Compactando pasta
+        run: |
+                  mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
+                  tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
+
+
     Step2:
-      name: Buildando Projeto
+      name: Deploy
       runs-on: ubuntu-latest
-      needs: Step1
-      steps:
-        - name: Build with dotnet
-          run: |
-            cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-            dotnet build --configuration Release
-
-        - name: Publicando projeto
-          run: |
-                    cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-                    dotnet publish --configuration Release -o outputDirectory
-
-        - name: Compactando pasta
-          run: |
-                    mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
-                    tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
-    
-    
-    Step3:
-      name: Deployando Projeto
-      runs-on: ubuntu-latest
-      needs: [Step1, Step2]
+      needs: [Step1]
       steps:
         - name: Enviando para servidor
           uses: airvzxf/ftp-deployment-action@latest

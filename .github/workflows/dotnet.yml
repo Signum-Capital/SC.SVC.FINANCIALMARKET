@@ -41,11 +41,11 @@ jobs:
       uses: airvzxf/ftp-deployment-action@latest
       with:
         # FTP Server.
-        server: 173.225.105.164
+        server: ${{ secrets.REMOTE_HOST }}
         # FTP User.
-        user: rodrigo
+        user: ${{ secrets.REMOTE_FTP_USER }}
         # FTP Password.
-        password: 1996Rodrigo
+        password: ${{ secrets.REMOTE_FTP_PASS }}
         # Local directory.
         local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
         # Remote directory.
@@ -55,11 +55,11 @@ jobs:
       uses: matheusvanzan/sshpass-action@v2
       with:
         # SSHPASS host
-        host: 173.225.105.164
+        host: ${{ secrets.REMOTE_HOST }}
         # SSHPASS username
-        user: Administrator
+        user: ${{ secrets.REMOTE_USER }}
         # SSHPASS password
-        pass: SoVi@#2020
+        pass: ${{ secrets.REMOTE_PASS }}
         # SSHPASS commands to run
         run: '%SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'
                 
@@ -67,11 +67,11 @@ jobs:
       uses: matheusvanzan/sshpass-action@v2
       with:
         # SSHPASS host
-        host: 173.225.105.164
+        host: ${{ secrets.REMOTE_HOST }}
         # SSHPASS username
-        user: Administrator
+        user: ${{ secrets.REMOTE_USER }}
         # SSHPASS password
-        pass: SoVi@#2020
+        pass: ${{ secrets.REMOTE_PASS }}
         # SSHPASS commands to run
         run: |
           cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
@@ -81,10 +81,10 @@ jobs:
       uses: matheusvanzan/sshpass-action@v2
       with:
         # SSHPASS host
-        host: 173.225.105.164
+        host: ${{ secrets.REMOTE_HOST }}
         # SSHPASS username
-        user: Administrator
+        user: ${{ secrets.REMOTE_USER }}
         # SSHPASS password
-        pass: SoVi@#2020
+        pass: ${{ secrets.REMOTE_PASS }}
         # SSHPASS commands to run
         run: '%SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'

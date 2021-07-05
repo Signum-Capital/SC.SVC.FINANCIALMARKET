@@ -35,20 +35,7 @@ jobs:
     - name: Compactando pasta
       run: |
               tar -czvf arquivo.tar.gz ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory
-    
-    - name: Parando servico
-      uses: matheusvanzan/sshpass-action@v1
-      with:
-        # SSHPASS host
-        host: 173.225.105.164
-        # SSHPASS username
-        username: Administrator
-        # SSHPASS password
-        password: SoVi@#2020
-        # SSHPASS commands to run
-        run: | 
-                %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
-  
+
     - name: Push Server
       uses: matheusvanzan/sshpass-action@v1
       with:

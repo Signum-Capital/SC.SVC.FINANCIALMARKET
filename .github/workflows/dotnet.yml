@@ -33,6 +33,7 @@ jobs:
                 dotnet publish --configuration Release -o outputDirectory
 
     - name: Push Server
+      uses: matheusvanzan/sshpass-action@v1
       with:
         # SSHPASS host
         host: 173.225.105.164

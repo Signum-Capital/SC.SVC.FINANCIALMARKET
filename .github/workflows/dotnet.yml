@@ -7,84 +7,91 @@ on:
     branches: [ Master ]
 
 jobs:
-  PREPARANDO:      
-    runs-on: ubuntu-latest
+    Step1:
+      name: Preparando Serviço
+      runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-        
-    #- name: Restore
-    #  run: |
-    #    cd ./src/SC.FINANCIALMARKET
-    #    dotnet restore
-  
-    - name: Build with dotnet
-      run: |
-        cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-        dotnet build --configuration Release
-        
-    - name: Publicando projeto
-      run: |
-                cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-                dotnet publish --configuration Release -o outputDirectory
+      steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+     
+    Step2:
+      name: Buildando Projeto
+      runs-on: ubuntu-latest
+      needs: Step1
+      steps:
+        - name: Build with dotnet
+          run: |
+            cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+            dotnet build --configuration Release
 
-    - name: Compactando pasta
-      run: |
-                mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
-                tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
+        - name: Publicando projeto
+          run: |
+                    cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+                    dotnet publish --configuration Release -o outputDirectory
 
-    - name: Enviando para servidor
-      uses: airvzxf/ftp-deployment-action@latest
-      with:
-        # FTP Server.
-        server: ${{ secrets.REMOTE_HOST }}
-        # FTP User.
-        user: ${{ secrets.REMOTE_FTP_USER }}
-        # FTP Password.
-        password: ${{ secrets.REMOTE_FTP_PASS }}
-        # Local directory.
-        local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
-        # Remote directory.
-        remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
+        - name: Compactando pasta
+          run: |
+                    mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
+                    tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
+    
+    
+    Step3:
+      name: Deployando Projeto
+      runs-on: ubuntu-latest
+      needs: [Step1, Step2]
+      steps:
+        - name: Enviando para servidor
+          uses: airvzxf/ftp-deployment-action@latest
+          with:
+            # FTP Server.
+            server: ${{ secrets.REMOTE_HOST }}
+            # FTP User.
+            user: ${{ secrets.REMOTE_FTP_USER }}
+            # FTP Password.
+            password: ${{ secrets.REMOTE_FTP_PASS }}
+            # Local directory.
+            local_dir: ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
+            # Remote directory.
+            remote_dir: ./SignumCapital/SIGNUM.FINANCIALMARKET
 
-    - name: Parar pool
-      uses: matheusvanzan/sshpass-action@v2
-      with:
-        # SSHPASS host
-        host: ${{ secrets.REMOTE_HOST }}
-        # SSHPASS username
-        user: ${{ secrets.REMOTE_USER }}
-        # SSHPASS password
-        pass: ${{ secrets.REMOTE_PASS }}
-        # SSHPASS commands to run
-        run: '%SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'
-                
-    - name: Descompactar arquivos
-      uses: matheusvanzan/sshpass-action@v2
-      with:
-        # SSHPASS host
-        host: ${{ secrets.REMOTE_HOST }}
-        # SSHPASS username
-        user: ${{ secrets.REMOTE_USER }}
-        # SSHPASS password
-        pass: ${{ secrets.REMOTE_PASS }}
-        # SSHPASS commands to run
-        run: |
-          cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
-          tar -xzvf compact.tar.gz
-                  
-    - name: Iniciar pool
-      uses: matheusvanzan/sshpass-action@v2
-      with:
-        # SSHPASS host
-        host: ${{ secrets.REMOTE_HOST }}
-        # SSHPASS username
-        user: ${{ secrets.REMOTE_USER }}
-        # SSHPASS password
-        pass: ${{ secrets.REMOTE_PASS }}
-        # SSHPASS commands to run
-        run: '%SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'
+        - name: Parar pool
+          uses: matheusvanzan/sshpass-action@v2
+          with:
+            # SSHPASS host
+            host: ${{ secrets.REMOTE_HOST }}
+            # SSHPASS username
+            user: ${{ secrets.REMOTE_USER }}
+            # SSHPASS password
+            pass: ${{ secrets.REMOTE_PASS }}
+            # SSHPASS commands to run
+            run: '%SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'
+
+        - name: Descompactar arquivos
+          uses: matheusvanzan/sshpass-action@v2
+          with:
+            # SSHPASS host
+            host: ${{ secrets.REMOTE_HOST }}
+            # SSHPASS username
+            user: ${{ secrets.REMOTE_USER }}
+            # SSHPASS password
+            pass: ${{ secrets.REMOTE_PASS }}
+            # SSHPASS commands to run
+            run: |
+              cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
+              tar -xzvf compact.tar.gz
+
+        - name: Iniciar pool
+          uses: matheusvanzan/sshpass-action@v2
+          with:
+            # SSHPASS host
+            host: ${{ secrets.REMOTE_HOST }}
+            # SSHPASS username
+            user: ${{ secrets.REMOTE_USER }}
+            # SSHPASS password
+            pass: ${{ secrets.REMOTE_PASS }}
+            # SSHPASS commands to run
+            run: '%SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"'

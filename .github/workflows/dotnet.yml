@@ -34,8 +34,8 @@ jobs:
 
     - name: Compactando pasta
       run: |
-              mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
-              tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
+                mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
+                tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
 
     - name: Enviando para servidor
       uses: airvzxf/ftp-deployment-action@latest
@@ -62,8 +62,8 @@ jobs:
         pass: SoVi@#2020
         # SSHPASS commands to run
         run: |
-                %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
-                cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
-                tar -xzvf compact.tar.gz
-                %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"
+                  %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
+                  cd C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET
+                  tar -xzvf compact.tar.gz
+                  %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"
 

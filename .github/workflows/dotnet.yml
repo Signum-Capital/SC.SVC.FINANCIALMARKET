@@ -22,10 +22,10 @@ jobs:
     #    cd ./src/SC.FINANCIALMARKET
     #    dotnet restore
   
-    #- name: Build with dotnet
-    #  run: |
-    #    cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
-    #    dotnet build --configuration Release
+    - name: Build with dotnet
+      run: |
+        cd ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API
+        dotnet build --configuration Release
         
     - name: Publicando projeto
       run: |

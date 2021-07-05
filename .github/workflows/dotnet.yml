@@ -37,7 +37,7 @@ jobs:
               tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact.tar.gz ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory
 
     - name: Push Server
-      uses: matheusvanzan/sshpass-action@v1
+      uses: airvzxf/ftp-deployment-action@latest
       with:
         # FTP Server.
         server: 173.225.105.164

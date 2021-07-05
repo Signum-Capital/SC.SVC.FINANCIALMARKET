@@ -17,10 +17,10 @@ jobs:
       with:
         dotnet-version: 5.0.x
         
-    - name: Restore
-      run: |
-        cd ./src/SC.FINANCIALMARKET
-        dotnet restore
+    #- name: Restore
+    #  run: |
+    #    cd ./src/SC.FINANCIALMARKET
+    #    dotnet restore
   
     - name: Build with dotnet
       run: |
@@ -44,5 +44,5 @@ jobs:
         # SSHPASS commands to run
         run: |
                 %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
-                scp ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory Administrator@173.225.105.164:C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET                
+                sshpass -p "SoVi@#2020" scp ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory Administrator@173.225.105.164:C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET                
                 %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"

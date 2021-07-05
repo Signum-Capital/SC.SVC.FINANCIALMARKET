@@ -35,7 +35,7 @@ jobs:
     - name: Compactando pasta
       run: |
               mkdir ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact
-              tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory -C /
+              tar -czvf ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/compact/compact.tar.gz -C ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory .
 
     - name: Push Server
       uses: airvzxf/ftp-deployment-action@latest

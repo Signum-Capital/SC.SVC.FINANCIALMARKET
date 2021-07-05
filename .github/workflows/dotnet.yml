@@ -44,5 +44,5 @@ jobs:
         # SSHPASS commands to run
         run: |
                 %SYSTEMROOT%\System32\inetsrv\appcmd stop apppool /apppool.name:"SignumCapital.FINANCIALMARKET"                
-                scp ./src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET                
+                scp src/SC.FINANCIALMARKET/SC.FINANCIALMARKET.API/outputDirectory C:\Projects\SignumCapital\SIGNUM.FINANCIALMARKET                
                 %SYSTEMROOT%\System32\inetsrv\appcmd start apppool /apppool.name:"SignumCapital.FINANCIALMARKET"

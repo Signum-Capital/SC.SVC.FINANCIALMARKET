@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SC.FINANCIALMARKET.DOMAIN.Factories
 {
+    [Obsolete("Factory descontinuada para utilização da CatalogerRealTimeFactory")]
     public class CatalogerFactory : Factory<List<ResultadoItem>>
     {
         public Exception Error { get; set; }

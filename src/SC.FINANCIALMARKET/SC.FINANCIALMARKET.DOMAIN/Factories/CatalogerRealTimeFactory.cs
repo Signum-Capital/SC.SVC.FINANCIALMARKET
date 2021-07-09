@@ -103,6 +103,12 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                     foreach (var item in sinais.Value)
                     {
+                        if(ordem.Porcentagem < Consulta.PorcentagemVelas)
+                        {
+                            valido = false;
+                            break;
+                        }
+
                         foreach (var subitem in item)
                         {
                             OrderDirection? ordemDoCandle = subitem.Abertura > subitem.Fechamento ? OrderDirection.Put : subitem.Abertura == subitem.Fechamento ? null : OrderDirection.Call;
@@ -118,7 +124,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         else
                             loss++;
 
-                        if (loss > Consulta.TotalLoss && ordem.Porcentagem < Consulta.PorcentagemVelas)
+                        if (loss > Consulta.TotalLoss)
                         {
                             valido = false;
                             break;

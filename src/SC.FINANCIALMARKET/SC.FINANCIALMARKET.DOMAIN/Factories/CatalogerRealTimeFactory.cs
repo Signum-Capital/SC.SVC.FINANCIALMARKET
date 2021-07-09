@@ -69,7 +69,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     }
                     catch(Exception e)
                     {
-                        await ClientProxy.SendAsync("RecieveResult", ConnectionId, "ERROR");
+                        await ClientProxy.SendAsync("RecieveResult", ConnectionId, "ERROR: " + e.Message);
                     }
                 }
 
@@ -191,33 +191,33 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                 foreach (var hora in horas)
                 {
-                    var listGales = new List<List<Candle>>();
+                    var candleDias = new List<List<Candle>>();
                     var msmHorario = listAllCandles.Where(e => e.Data.Hour == hora.Hour && e.Data.Minute == hora.Minute && e.Paridade == paridade).ToList();
 
                     foreach (var dia in msmHorario)
                     {
-                        var add = listAllCandles.Where(e => e.Data >= dia.Data && e.Data < dia.Data.AddMinutes(Consulta.TimeFrame * (Consulta.Gale + 1))).ToList();
+                        var candleGales = listAllCandles.Where(e => e.Data >= dia.Data && e.Data < dia.Data.AddMinutes(Consulta.TimeFrame * (Consulta.Gale + 1))).ToList();
 
-                        if (add.Count > Consulta.Gale + 1)
-                            add = add.GroupBy(e => e.Data).Select(e => e.First()).ToList();
+                        if (candleGales.Count > Consulta.Gale + 1)
+                            candleGales = candleGales.GroupBy(e => e.Data).Select(e => e.First()).ToList();
 
                         if (result.Count <= Consulta.TotalDias)
-                            listGales.Add(add);
+                            candleDias.Add(candleGales);
                         else
                             break;
                     }
 
                     var valid = Consulta.Tendencia switch
                     {
-                        5 => listGales[0][0].Tendencia5,
-                        10 => listGales[0][0].Tendencia10,
-                        15 => listGales[0][0].Tendencia15,
-                        30 => listGales[0][0].Tendencia30,
+                        5 => candleDias[0][0].Tendencia5,
+                        10 => candleDias[0][0].Tendencia10,
+                        15 => candleDias[0][0].Tendencia15,
+                        30 => candleDias[0][0].Tendencia30,
                         _ => true
                     };
 
                     if (valid)
-                        result.Add(hora, listGales);
+                        result.Add(hora, candleDias);
                 }
 
                 return result;

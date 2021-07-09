@@ -207,17 +207,20 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                             break;
                     }
 
-                    var valid = Consulta.Tendencia switch
+                    if(candleDias.Count > 0)
                     {
-                        5 => candleDias[0][0].Tendencia5,
-                        10 => candleDias[0][0].Tendencia10,
-                        15 => candleDias[0][0].Tendencia15,
-                        30 => candleDias[0][0].Tendencia30,
-                        _ => true
-                    };
+                        var valid = Consulta.Tendencia switch
+                        {
+                            5 => candleDias[0][0].Tendencia5,
+                            10 => candleDias[0][0].Tendencia10,
+                            15 => candleDias[0][0].Tendencia15,
+                            30 => candleDias[0][0].Tendencia30,
+                            _ => true
+                        };
 
-                    if (valid)
-                        result.Add(hora, candleDias);
+                        if (valid)
+                            result.Add(hora, candleDias);
+                    }                    
                 }
 
                 return result;

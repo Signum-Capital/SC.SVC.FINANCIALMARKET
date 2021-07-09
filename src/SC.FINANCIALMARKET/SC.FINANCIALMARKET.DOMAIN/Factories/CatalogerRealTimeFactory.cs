@@ -66,7 +66,8 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         Dictionary<DateTime, List<List<Candle>>> SinaisHorarios = CarregaSinaisHorarios(Horas, Dias, paridade);
                         Dictionary<DateTime, Ordem> PorcentagemOrdem = CarregaOrdemPorcentagem(SinaisHorarios);
                         var listaAAdicionar = CarregarResultadoItens(SinaisHorarios, PorcentagemOrdem, paridade);
-                    }catch(Exception e)
+                    }
+                    catch(Exception e)
                     {
                         await ClientProxy.SendAsync("RecieveResult", ConnectionId, "ERROR");
                     }
@@ -227,7 +228,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             var list = new List<DateTime>();
             var diaAtual = DateTime.UtcNow.AddDays(-1);
 
-            while (list.Count <= totalDias - 1)
+            while (list.Count <= totalDias)
             {
                 if (FinancialMarketDataContext.Candles.Any(e => e.Data.Date == diaAtual.Date && paridades.Contains(e.Paridade)))
                     list.Add(diaAtual.Date);

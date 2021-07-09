@@ -67,7 +67,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         Dictionary<DateTime, Ordem> PorcentagemOrdem = CarregaOrdemPorcentagem(SinaisHorarios);
                         var listaAAdicionar = CarregarResultadoItens(SinaisHorarios, PorcentagemOrdem, paridade);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         await ClientProxy.SendAsync("RecieveResult", "ERROR: " + e.Message);
                     }
@@ -201,10 +201,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         if (candleGales.Count > Consulta.Gale + 1)
                             candleGales = candleGales.GroupBy(e => e.Data).Select(e => e.First()).ToList();
 
-                        if (result.Count <= Consulta.TotalDias)
-                            candleDias.Add(candleGales);
-                        else
-                            break;
+                        candleDias.Add(candleGales);
                     }
 
                     var valid = Consulta.Tendencia switch
@@ -231,7 +228,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             var list = new List<DateTime>();
             var diaAtual = DateTime.UtcNow.AddDays(-1);
 
-            while (list.Count <= totalDias + 5)
+            while (list.Count <= totalDias)
             {
                 if (FinancialMarketDataContext.Candles.Any(e => e.Data.Date == diaAtual.Date && paridades.Contains(e.Paridade)))
                     list.Add(diaAtual.Date);

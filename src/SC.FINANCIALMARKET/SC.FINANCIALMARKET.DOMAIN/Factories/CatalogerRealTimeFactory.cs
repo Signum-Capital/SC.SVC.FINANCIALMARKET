@@ -69,7 +69,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     }
                     catch(Exception e)
                     {
-                        await ClientProxy.SendAsync("RecieveResult", ConnectionId, "ERROR: " + e.Message);
+                        await ClientProxy.SendAsync("RecieveResult", "ERROR: " + e.Message);
                     }
                 }
 
@@ -207,20 +207,17 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                             break;
                     }
 
-                    if(candleDias.Count > 0)
+                    var valid = Consulta.Tendencia switch
                     {
-                        var valid = Consulta.Tendencia switch
-                        {
-                            5 => candleDias[0][0].Tendencia5,
-                            10 => candleDias[0][0].Tendencia10,
-                            15 => candleDias[0][0].Tendencia15,
-                            30 => candleDias[0][0].Tendencia30,
-                            _ => true
-                        };
+                        5 => candleDias[0][0].Tendencia5,
+                        10 => candleDias[0][0].Tendencia10,
+                        15 => candleDias[0][0].Tendencia15,
+                        30 => candleDias[0][0].Tendencia30,
+                        _ => true
+                    };
 
-                        if (valid)
-                            result.Add(hora, candleDias);
-                    }                    
+                    if (valid)
+                        result.Add(hora, candleDias);
                 }
 
                 return result;

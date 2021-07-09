@@ -118,7 +118,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         else
                             loss++;
 
-                        if (loss > Consulta.TotalLoss && ordem.Porcentagem > Consulta.PorcentagemVelas)
+                        if (loss > Consulta.TotalLoss && ordem.Porcentagem < Consulta.PorcentagemVelas)
                         {
                             valido = false;
                             break;

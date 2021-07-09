@@ -201,7 +201,10 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         if (add.Count > Consulta.Gale + 1)
                             add = add.GroupBy(e => e.Data).Select(e => e.First()).ToList();
 
-                        listGales.Add(add);
+                        if (result.Count <= Consulta.TotalDias)
+                            listGales.Add(add);
+                        else
+                            break;
                     }
 
                     var valid = Consulta.Tendencia switch
@@ -228,7 +231,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             var list = new List<DateTime>();
             var diaAtual = DateTime.UtcNow.AddDays(-1);
 
-            while (list.Count <= totalDias)
+            while (list.Count <= totalDias + 5)
             {
                 if (FinancialMarketDataContext.Candles.Any(e => e.Data.Date == diaAtual.Date && paridades.Contains(e.Paridade)))
                     list.Add(diaAtual.Date);

@@ -233,8 +233,8 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         {
             var list = new List<DateTime>();
             var diaAtual = DateTime.UtcNow.AddDays(-1);
-
-            while (list.Count <= totalDias)
+            // -1 porque o array começa do 0, sem o -1 traz um dia a mais//
+            while (list.Count <= totalDias-1)
             {
                 if (FinancialMarketDataContext.Candles.Any(e => e.Data.Date == diaAtual.Date && paridades.Contains(e.Paridade)))
                     list.Add(diaAtual.Date);

@@ -198,7 +198,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 foreach (var hora in horas)
                 {
                     var candleDias = new List<List<Candle>>();
-                    var msmHorario = listAllCandles.Where(e => e.Data.Hour == hora.Hour && e.Data.Minute == hora.Minute && e.Paridade == paridade).ToList();
+                    var msmHorario = listAllCandles.Where(e => e.Data.Hour == hora.Hour && e.Data.Minute == hora.Minute && e.Paridade == paridade).TakeLast(Consulta.TotalDias).ToList();
 
                     foreach (var dia in msmHorario)
                     {

@@ -234,7 +234,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             var list = new List<DateTime>();
             var diaAtual = DateTime.UtcNow.AddDays(-1);
 
-            while (list.Count <= totalDias)
+            while (list.Count <= totalDias + 3)
             {
                 if (FinancialMarketDataContext.Candles.Any(e => e.Data.Date == diaAtual.Date && paridades.Contains(e.Paridade)))
                     list.Add(diaAtual.Date);

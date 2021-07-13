@@ -35,7 +35,7 @@ namespace SC.FINANCIALMARKET.API.Areas.V2.Controllers
         [HttpGet("ForceFinish/{connectionId}")]
         public IActionResult ForceFinishCataloger(string connectionId)
         {
-            if (CatalogerService.CancellationQueue.Contains(connectionId))
+            if (!CatalogerService.CancellationQueue.Contains(connectionId))
             {
                 CatalogerService.CancellationQueue.Add(connectionId);
             }

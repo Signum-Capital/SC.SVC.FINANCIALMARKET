@@ -24,6 +24,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         List<DateTime> Horas { get; set; } = new List<DateTime>();
         List<DateTime> Dias { get; set; } = new List<DateTime>();
         int Id = 0;
+        bool Canceled { get; set; } = false;
 
 
         public IClientProxy ClientProxy { get; }
@@ -66,6 +67,9 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         Dictionary<DateTime, List<List<Candle>>> SinaisHorarios = CarregaSinaisHorarios(Horas, Dias, paridade);
                         Dictionary<DateTime, Ordem> PorcentagemOrdem = CarregaOrdemPorcentagem(SinaisHorarios);
                         var listaAAdicionar = CarregarResultadoItens(SinaisHorarios, PorcentagemOrdem, paridade);
+
+                        if (Canceled)
+                            break;
                     }
                     catch (Exception e)
                     {
@@ -92,6 +96,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     if (CatalogerService.CancellationQueue.Any(e => e == ConnectionId))
                     {
                         CatalogerService.CancellationQueue.Remove(ConnectionId);
+                        Canceled = true;
                         break;
                     }
 

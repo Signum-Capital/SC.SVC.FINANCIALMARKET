@@ -26,7 +26,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Services
         {
             var result = new List<Candle>();
 
-            if (Context.Candles.Any(e => e.Data.Date == DiaVigente.Date))
+            if (Context.Candles.Any(e => e.Data.Date == DiaVigente.Date && e.Data.Hour >= 20))
             {
                 return result;
             }

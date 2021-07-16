@@ -109,6 +109,13 @@ namespace SC.FINANCIALMARKET.DOMAIN.Services
             }
         }
 
+        public void ApagarDias()
+        {
+            var candles = Context.Candles.Where(e => e.Data.Date >= DateTime.UtcNow.AddDays(-40)).ToList();
+            candles.ForEach(e => Context.Candles.Remove(e));
+            Context.SaveChanges();
+        }
+
         public void LimparAntigos(DateTime dateTime)
         {
             CalcularTempo("A limpeza demorou: ", () =>

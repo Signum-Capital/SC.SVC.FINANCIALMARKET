@@ -55,8 +55,8 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                     //act
                     captura.LimparAntigos(DateTime.UtcNow.Date.AddDays(-32));
-                    //captura.FormatarAPartirDe(DateTime.UtcNow.AddDays(-32).Date);
-                    captura.ApagarDias();
+                    captura.FormatarAPartirDe(DateTime.UtcNow.AddDays(-1).Date);
+                    //captura.ApagarDias();
                     captura.SaveCandles();
                     captura.LimparDuplicados();
 

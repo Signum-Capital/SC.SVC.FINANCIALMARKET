@@ -81,7 +81,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Services
 
                     ListaParaAdicionar = LimparDuplicados(ListaParaAdicionar);
                     // "22 é equivalente à 22 horas(19 horas sem UTC)" 
-                    ListaParaAdicionar = DeletarAposHoras(ListaParaAdicionar, 22);
+                    ListaParaAdicionar = DeletarAposHoras(ListaParaAdicionar, 19);
 
                     Context.Candles.AddRange(ListaParaAdicionar);
                 }

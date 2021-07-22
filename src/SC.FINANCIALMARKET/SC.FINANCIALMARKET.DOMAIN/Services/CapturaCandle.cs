@@ -26,7 +26,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Services
         {
             var result = new List<Candle>();
 
-            if (Context.Candles.Any(e => e.Data.Date == DiaVigente.Date && e.Data.Hour >= 20))
+            if (Context.Candles.Any(e => e.Data.Date == DiaVigente.Date))
             {
                 return result;
             }
@@ -80,6 +80,9 @@ namespace SC.FINANCIALMARKET.DOMAIN.Services
                     ListaParaAdicionar.AddRange(candlesTratados);
 
                     ListaParaAdicionar = LimparDuplicados(ListaParaAdicionar);
+                    // "22 é equivalente à 22 horas(19 horas sem UTC)" 
+                    ListaParaAdicionar = DeletarAposHoras(ListaParaAdicionar, 22);
+
                     Context.Candles.AddRange(ListaParaAdicionar);
                 }
             }
@@ -114,6 +117,14 @@ namespace SC.FINANCIALMARKET.DOMAIN.Services
             var candles = Context.Candles.Where(e => e.Data.Date >= DateTime.UtcNow.AddDays(-40)).ToList();
             candles.ForEach(e => Context.Candles.Remove(e));
             Context.SaveChanges();
+        }
+
+        public List<Candle> DeletarAposHoras(List<Candle> lista, int hora)
+        {            
+            var candles = lista.Where(e => e.Data.Hour < hora).ToList();
+
+            return candles;
+            
         }
 
         public void LimparAntigos(DateTime dateTime)

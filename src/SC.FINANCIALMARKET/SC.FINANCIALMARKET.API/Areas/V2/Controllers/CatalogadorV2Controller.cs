@@ -38,8 +38,8 @@ namespace SC.FINANCIALMARKET.API.Areas.V2.Controllers
             if (usuplat == null)
                 return Result(null, "USER_NOT_FOUND", false);
 
-            else if (usuplat.Expiracao < DateTime.UtcNow)
-                return Result(null,"TIME_EXPIRED",false);
+            //else if (usuplat.Expiracao < DateTime.UtcNow)
+            //    return Result(null,"TIME_EXPIRED",false);
 
             var consulta = ConvertObject.Convert<Consulta>(consultaRequest);
             new CatalogerRealTimeFactory(consulta, consultaRequest.ConnectionId, _hubContext).Produce();

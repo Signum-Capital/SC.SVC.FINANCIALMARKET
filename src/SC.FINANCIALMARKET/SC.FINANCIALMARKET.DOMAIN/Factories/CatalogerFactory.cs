@@ -17,7 +17,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         public Exception Error { get; set; }
 
         public int RegistrosEncontrados { get; set; }
-        public Resultado Resultado { get; set; } = new Resultado();
+        public INFRA.INFRAESTRUCTURE.DB.FINANCIALMARKETDATA.Resultado Resultado { get; set; } = new INFRA.INFRAESTRUCTURE.DB.FINANCIALMARKETDATA.Resultado();
         public List<List<List<Candle>>> Candles { get; set; } = new List<List<List<Candle>>>();
         List<DateTime> Horas { get; set; } = new List<DateTime>();
         List<DateTime> Dias { get; set; } = new List<DateTime>();

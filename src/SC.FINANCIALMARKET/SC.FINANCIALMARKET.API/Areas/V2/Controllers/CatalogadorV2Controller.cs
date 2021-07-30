@@ -30,10 +30,7 @@ namespace SC.FINANCIALMARKET.API.Areas.V2.Controllers
         [HttpPost("Catalogar/realtime")]
         public async Task<IActionResult> Post(ConsultaRequest consultaRequest)
         {
-            var token = HeaderService.GetAuthorization(Request);
-            var user = TokenService.RevertToken(token);
-
-            var usuplat = await UsuarioPlataformaRepository.RecuperarPorUsuarioPlataformaAsync(user.UsuarioId, 1009);
+            var usuplat = await UsuarioPlataformaRepository.RecuperarPorUsuarioPlataformaAsync(Token.UsuarioId, 1009);
 
             if (usuplat == null)
                 return Result(null, "USER_NOT_FOUND", false);

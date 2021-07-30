@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using System.Text;
 using System;
+using KissLog.Web;
+using System.Linq;
 
 namespace SC.FINANCIALMARKET.API
 {
@@ -120,6 +122,20 @@ namespace SC.FINANCIALMARKET.API
 
                     return sb.ToString();
                 });
+
+            options.Options.GetUser((RequestProperties request) =>
+            {
+                // user name can be retrieved from the Request Claims
+                // string nameClaim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+                // string name = request.Claims.FirstOrDefault(p => p.Key == nameClaim).Value;
+
+                string name = request.Claims.FirstOrDefault(e => e.Key == "Username").Value;
+
+                return new UserDetails
+                {
+                    EmailAddress = name
+                };
+            });
 
             // KissLog internal logs
             options.InternalLog = (message) =>

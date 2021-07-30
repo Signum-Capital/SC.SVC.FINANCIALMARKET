@@ -1,4 +1,5 @@
 ﻿using IqOptionApi.Models;
+using SC.FINANCIALMARKET.DOMAIN.Configuration;
 using SC.FINANCIALMARKET.DOMAIN.Services;
 using SC.INFRA.INFRAESTRUCTURE.Contexts;
 using SC.PKG.SERVICES.Factory;
@@ -24,9 +25,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         public CollectCandleFactory()
         {
             FinancialMarketDataContext = new FinancialMarketDataContext();
-
-            IqOptionClient = new IqOptionApi.IqOptionClient("rodrigo199686@hotmail.com", "rodrigoboot");
-            IqOptionClient.ConnectAsync().Wait();
+            IqOptionClient = SigninIqOptionConfiguration.IqOptionClient;            
 
             TelegramService = new TelegramService();
             TelegramService.StartBot("1688028510:AAGfjRLxA3gYVWOm0oclQE6jNBjX8hUB_UY", -433344145);
@@ -59,6 +58,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     //captura.ApagarDias();                    
                     captura.SaveCandles();
                     captura.LimparDuplicados();
+                    
 
                     //finish
                     DiaVigente = DiaVigente.AddDays(1);

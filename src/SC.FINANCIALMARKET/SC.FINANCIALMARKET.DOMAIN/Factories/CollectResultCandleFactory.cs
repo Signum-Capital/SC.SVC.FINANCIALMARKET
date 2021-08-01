@@ -32,12 +32,12 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         {
             foreach (var sinal in Entrada)
             {
-                var sinalAtivo = getActivePair(sinal.Paridade);
+                var sinalAtivo = getActivePair(sinal.Paridade.Replace("-", "_"));
                 var timeframe = (TimeFrame)(sinal.Timeframe * 60);
                 var qtd = 1 + sinal.Gale;
-                var horario = sinal.Horario.ToUniversalTime();
+                var horario = sinal.Horario.AddMinutes(sinal.Gale * sinal.Timeframe).ToUniversalTime();
 
-                var candles = await IqOptionClient.GetCandlesAsync(sinalAtivo, timeframe, qtd, horario);
+                var candles = IqOptionClient.GetCandlesAsync(sinalAtivo, timeframe, qtd, horario).GetAwaiter().GetResult();
 
                 int countLose = 0;
                 foreach (var candle in candles.Infos)

@@ -125,7 +125,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         }
 
                         if (valido)
-                            break;
+                             continue;
                         else
                             loss++;
 

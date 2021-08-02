@@ -122,6 +122,10 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                                 valido = true;
                                 break;
                             }
+                            else
+                            {
+                                valido = false;
+                            }
                         }
 
                         if (valido)

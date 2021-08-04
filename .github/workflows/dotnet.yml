@@ -1,7 +1,7 @@
 name: FINANCIAL MARKET CI/CD
 
 on:
-  pull_request:
+  push:
     branches: [ Master ]
 
 jobs:

@@ -38,8 +38,17 @@ namespace SC.FINANCIALMARKET.API.Controllers.Generic
             get
             {
                 var token = HeaderService.GetAuthorization(Request);
-                var user = TokenService.RevertTokenJwt(token);
-                return user;
+
+                try
+                {
+                    var user = TokenService.RevertTokenJwt(token);
+                    return user;
+                }
+                catch
+                {
+                    var user = TokenService.RevertToken(token);
+                    return user;
+                }
             }
         }
     }

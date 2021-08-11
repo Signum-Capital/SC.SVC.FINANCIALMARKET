@@ -46,12 +46,11 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 int countLose = 0;
                 foreach (var candle in candles.Infos)
                 {
-                    if (candle.From.DateTime > DateTime.Now.ToLocalTime())
+                    if (horario > DateTime.Now)
                     {
                         sinal.Resultado = "Aguardando...";
                         break;
                     }
-
 
                     var doji = candle.Close == candle.Open;
 

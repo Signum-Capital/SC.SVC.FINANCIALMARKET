@@ -36,12 +36,18 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 var timeframe = (TimeFrame)(sinal.Timeframe * 60);
                 var qtd = 1 + sinal.Gale;
                 var horario = sinal.Horario.ToUniversalTime();
-
                 var candles = await IqOptionClient.GetCandlesAsync(sinalAtivo, timeframe, qtd, horario);
 
                 int countLose = 0;
                 foreach (var candle in candles.Infos)
                 {
+                    if (candle.From.Date != horario.Date)
+                    {
+                        sinal.Resultado = "Aguardando...";
+                        break;
+                    }
+
+
                     var doji = candle.Close == candle.Open;
 
                     if (doji)

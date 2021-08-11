@@ -1,3 +1,8 @@
+using KissLog;
+using KissLog.AspNetCore;
+using KissLog.CloudListeners.Auth;
+using KissLog.CloudListeners.RequestLogsListener;
+
 using Infra.Dependencies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +13,12 @@ using SC.FINANCIALMARKET.DOMAIN.Configuration;
 using SC.FINANCIALMARKET.DOMAIN.Hubs;
 using SC.INFRA.INFRAESTRUCTURE.Contexts;
 using SC.PKG.SERVICES.Filters;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
+using System.Text;
+using System;
+using KissLog.Web;
+using System.Linq;
 
 namespace SC.FINANCIALMARKET.API
 {
@@ -34,6 +45,17 @@ namespace SC.FINANCIALMARKET.API
             {
                 o.EnableDetailedErrors = true;
                 o.MaximumReceiveMessageSize = 256;
+            });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ILogger>((context) =>
+            {
+                return Logger.Factory.Get();
+            });
+
+            services.AddLogging(logging =>
+            {
+                logging.AddKissLog();
             });
 
             services.AddCors(options =>
@@ -74,10 +96,68 @@ namespace SC.FINANCIALMARKET.API
 
             app.UseCors();
 
+            app.UseKissLogMiddleware(options => {
+                ConfigureKissLog(options);
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<CatalogadorHub>("/ws/cataloger");
+            });
+        }
+
+        private void ConfigureKissLog(IOptionsBuilder options)
+        {
+            // optional KissLog configuration
+            options.Options
+                .AppendExceptionDetails((Exception ex) =>
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    if (ex is System.NullReferenceException nullRefException)
+                    {
+                        sb.AppendLine("Important: check for null references");
+                    }
+
+                    return sb.ToString();
+                });
+
+            options.Options.GetUser((RequestProperties request) =>
+            {
+                // user name can be retrieved from the Request Claims
+                // string nameClaim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+                // string name = request.Claims.FirstOrDefault(p => p.Key == nameClaim).Value;
+
+                string name = request.Claims.FirstOrDefault(e => e.Key == "Username").Value;
+
+                return new UserDetails
+                {
+                    EmailAddress = name
+                };
+            });
+
+            // KissLog internal logs
+            options.InternalLog = (message) =>
+            {
+                Debug.WriteLine(message);
+            };
+
+            // register logs output
+            RegisterKissLogListeners(options);
+        }
+
+        private void RegisterKissLogListeners(IOptionsBuilder options)
+        {
+            // multiple listeners can be registered using options.Listeners.Add() method
+
+            // register KissLog.net cloud listener
+            options.Listeners.Add(new RequestLogsApiListener(new Application(
+                Configuration["KissLog.OrganizationId"],    //  "200c5a1b-5efc-48a8-8a20-5223e22a4437"
+                Configuration["KissLog.ApplicationId"])     //  "b40ad633-c7bb-4bcb-b5dc-aef9b02384c4"
+            )
+            {
+                ApiUrl = Configuration["KissLog.ApiUrl"]    //  "https://kisslogback.signumcapital.net"
             });
         }
     }

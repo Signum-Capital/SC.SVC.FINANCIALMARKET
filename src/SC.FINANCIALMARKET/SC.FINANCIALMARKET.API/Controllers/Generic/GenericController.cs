@@ -3,6 +3,7 @@ using SC.FINANCIALMARKET.API.Models;
 using SC.FINANCIALMARKET.DOMAIN.Collections;
 using SC.INFRA.INFRAESTRUCTURE.DB.SIGNUMCAPITAL;
 using SC.PKG.SERVICES.Models;
+using SC.PKG.SERVICES.Services;
 
 namespace SC.FINANCIALMARKET.API.Controllers.Generic
 {
@@ -30,6 +31,25 @@ namespace SC.FINANCIALMARKET.API.Controllers.Generic
             };
 
             return isOk ? Ok(res) : BadRequest(res);
+        }
+
+        protected Token Token
+        {
+            get
+            {
+                var token = HeaderService.GetAuthorization(Request);
+
+                try
+                {
+                    var user = TokenService.RevertTokenJwt(token);
+                    return user;
+                }
+                catch
+                {
+                    var user = TokenService.RevertToken(token);
+                    return user;
+                }
+            }
         }
     }
 }

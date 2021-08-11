@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SC.FINANCIALMARKET.API.Areas.V1.Controllers
 {
-    public class CatalogadorController : V2Controller
+    public class CatalogadorController : V1Controller
     {
         private FinancialMarketDataContext FinancialMarketDataContext { get; }
 

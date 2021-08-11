@@ -27,7 +27,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
             foreach (var linha in ListaBruta)
             {
-                var colunas = linha.Split('-', ',', ';', ' ');
+                var colunas = linha.Split(',', ';', ' ');
 
                 var res = new ResultadoSinal();
 

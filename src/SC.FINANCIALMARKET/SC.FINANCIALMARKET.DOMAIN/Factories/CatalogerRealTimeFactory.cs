@@ -108,7 +108,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                     foreach (var item in sinais.Value)
                     {
-                        if(ordem.Porcentagem < Consulta.PorcentagemVelas)
+                        if (ordem.Porcentagem < Consulta.PorcentagemVelas)
                         {
                             valido = false;
                             break;
@@ -129,7 +129,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         }
 
                         if (valido)
-                             continue;
+                            continue;
                         else
                             loss++;
 
@@ -221,21 +221,50 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                     var valid = Consulta.Tendencia switch
                     {
-                        5 => candleDias[0][0].Tendencia5,
-                        10 => candleDias[0][0].Tendencia10,
-                        15 => candleDias[0][0].Tendencia15,
-                        30 => candleDias[0][0].Tendencia30,
+                        -1 => Get1Dia(candleDias),
+                        5 => candleDias[candleDias.Count - 1][0].Tendencia5,
+                        10 => candleDias[candleDias.Count - 1][0].Tendencia10,
+                        15 => candleDias[candleDias.Count - 1][0].Tendencia15,
+                        30 => candleDias[candleDias.Count - 1][0].Tendencia30,
                         _ => true
                     };
 
                     if (valid)
                         result.Add(hora, candleDias);
+
+
                 }
 
                 return result;
             }
 
             return null;
+        }
+
+        private bool Get1Dia(List<List<Candle>> lista)
+        {
+            var candleOntem = lista[lista.Count - 1][0];
+            var dataPrimeiroCandle = candleOntem.Data.AddDays(-1);
+            var primeiroCandle = lista.FirstOrDefault(e => e[0].Data >= dataPrimeiroCandle).FirstOrDefault();
+            string ordem = "";
+
+            if (candleOntem.Abertura > candleOntem.Fechamento)
+            {
+                ordem = "put";
+            }
+            else if (candleOntem.Abertura < candleOntem.Fechamento)
+            {
+                ordem = "call";
+            }
+            else
+            {
+                ordem = "doji";
+            }
+
+            var tendencia = primeiroCandle.Abertura > candleOntem.Fechamento && ordem == "put" ||
+                primeiroCandle.Abertura < candleOntem.Fechamento && ordem == "call";
+
+            return tendencia;
         }
 
         private List<DateTime> CarregaDias(int totalDias, string[] paridades)

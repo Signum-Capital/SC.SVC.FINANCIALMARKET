@@ -35,6 +35,10 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 var sinalAtivo = getActivePair(sinal.Paridade.Replace("-", "_"));
                 var timeframe = (TimeFrame)(sinal.Timeframe * 60);
                 var qtd = 1 + sinal.Gale;
+
+                //var horario = sinal.Horario.ToUniversalTime();
+                //var candles = await IqOptionClient.GetCandlesAsync(sinalAtivo, timeframe, qtd, horario);
+
                 var horario = sinal.Horario.AddMinutes(sinal.Gale * sinal.Timeframe).ToUniversalTime();
 
                 var candles = IqOptionClient.GetCandlesAsync(sinalAtivo, timeframe, qtd, horario).GetAwaiter().GetResult();
@@ -42,6 +46,13 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 int countLose = 0;
                 foreach (var candle in candles.Infos)
                 {
+                    if (candle.From.Date != horario.Date)
+                    {
+                        sinal.Resultado = "Aguardando...";
+                        break;
+                    }
+
+
                     var doji = candle.Close == candle.Open;
 
                     if (doji)

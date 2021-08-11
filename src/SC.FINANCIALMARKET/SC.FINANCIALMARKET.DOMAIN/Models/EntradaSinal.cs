@@ -11,6 +11,6 @@ namespace SC.FINANCIALMARKET.DOMAIN.Models
         public DateTime Data { get; set; }
         public string Lista { get; set; }
         public string Padrao { get; set; }
-        public string Gale { get; set; }
+        //public string Gale { get; set; }
     }
 }

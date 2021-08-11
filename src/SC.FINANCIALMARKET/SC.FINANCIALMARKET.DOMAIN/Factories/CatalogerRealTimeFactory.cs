@@ -231,13 +231,10 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                     if (valid)
                         result.Add(hora, candleDias);
-
-
                 }
 
                 return result;
             }
-
             return null;
         }
 

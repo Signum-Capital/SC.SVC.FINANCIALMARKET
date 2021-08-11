@@ -46,7 +46,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 int countLose = 0;
                 foreach (var candle in candles.Infos)
                 {
-                    if (candle.From.Date != horario.Date)
+                    if (candle.From.DateTime > DateTime.Now)
                     {
                         sinal.Resultado = "Aguardando...";
                         break;

@@ -45,7 +45,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         {
             Paridades = Consulta.Paridades.ToUpper().Replace(" ", "").Split(",");
 
-            Query().ConfigureAwait(false);
+            Query().ConfigureAwait(true);
             return Resultado.ResultadoItens.ToList();
         }
 
@@ -202,35 +202,43 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 var primeiroDia = dias.First().Date;
                 var ultimoDia = dias.Last();
                 var listAllCandles = FinancialMarketDataContext.Candles.Where(e => e.Data.Date >= ultimoDia && e.Data.Date <= primeiroDia && e.Paridade == paridade && e.Timeframe == Consulta.TimeFrame).ToList();
-                var result = new Dictionary<DateTime, List<List<Candle>>>();
+                var result = new Dictionary<DateTime, List<List<Candle>>>();                
 
                 foreach (var hora in horas)
                 {
-                    var candleDias = new List<List<Candle>>();
-                    var msmHorario = listAllCandles.Where(e => e.Data.Hour == hora.Hour && e.Data.Minute == hora.Minute && e.Paridade == paridade).TakeLast(Consulta.TotalDias).ToList();
-
-                    foreach (var dia in msmHorario)
+                    try
                     {
-                        var candleGales = listAllCandles.Where(e => e.Data >= dia.Data && e.Data < dia.Data.AddMinutes(Consulta.TimeFrame * (Consulta.Gale + 1))).ToList();
+                        var candleDias = new List<List<Candle>>();
+                        var msmHorario = listAllCandles.Where(e => e.Data.Hour == hora.Hour && e.Data.Minute == hora.Minute && e.Paridade == paridade).TakeLast(Consulta.TotalDias).ToList();
 
-                        if (candleGales.Count > Consulta.Gale + 1)
-                            candleGales = candleGales.GroupBy(e => e.Data).Select(e => e.First()).ToList();
+                        foreach (var dia in msmHorario)
+                        {
+                            var candleGales = listAllCandles.Where(e => e.Data >= dia.Data && e.Data < dia.Data.AddMinutes(Consulta.TimeFrame * (Consulta.Gale + 1))).ToList();
 
-                        candleDias.Add(candleGales);
+                            if (candleGales.Count > Consulta.Gale + 1)
+                                candleGales = candleGales.GroupBy(e => e.Data).Select(e => e.First()).ToList();
+
+                            candleDias.Add(candleGales);
+                        }
+
+                        var valid = Consulta.Tendencia switch
+                        {
+                            -1 => Get1Dia(candleDias),
+                            5 => candleDias[candleDias.Count - 1][0].Tendencia5,
+                            10 => candleDias[candleDias.Count - 1][0].Tendencia10,
+                            15 => candleDias[candleDias.Count - 1][0].Tendencia15,
+                            30 => candleDias[candleDias.Count - 1][0].Tendencia30,
+                            _ => true
+                        };
+
+                        if (valid)
+                            result.Add(hora, candleDias);
                     }
+                    catch(Exception e) {
 
-                    var valid = Consulta.Tendencia switch
-                    {
-                        -1 => Get1Dia(candleDias),
-                        5 => candleDias[candleDias.Count - 1][0].Tendencia5,
-                        10 => candleDias[candleDias.Count - 1][0].Tendencia10,
-                        15 => candleDias[candleDias.Count - 1][0].Tendencia15,
-                        30 => candleDias[candleDias.Count - 1][0].Tendencia30,
-                        _ => true
-                    };
-
-                    if (valid)
-                        result.Add(hora, candleDias);
+                        
+                    }
+                   
                 }
 
                 return result;

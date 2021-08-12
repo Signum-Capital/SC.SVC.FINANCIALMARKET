@@ -39,6 +39,7 @@ namespace SC.FINANCIALMARKET.API.Areas.V2.Controllers
             //    return Result(null,"TIME_EXPIRED",false);
 
             var consulta = ConvertObject.Convert<Consulta>(consultaRequest);
+            consulta.Data = DateTime.Now;
             new CatalogerRealTimeFactory(consulta, consultaRequest.ConnectionId, _hubContext).Produce();
 
             return Result();

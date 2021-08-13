@@ -145,7 +145,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         var itemValido = new ResultadoItem()
                         {
                             Id = Id++,
-                            DateTime = sinais.Key.AddDays(1),
+                            DateTime = sinais.Key.AddDays(1).AddHours(Consulta.Timezone),
                             Ordem = stringOrdem,
                             Paridade = paridade,
                             Porcentagem = ordem.Porcentagem,

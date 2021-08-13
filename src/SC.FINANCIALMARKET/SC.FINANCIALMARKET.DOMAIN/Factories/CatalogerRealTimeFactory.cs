@@ -139,13 +139,15 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                             break;
                         }
                     }
+                    var horaConvertida = sinais.Key.AddDays(1).AddHours(Consulta.Timezone);
 
-                    if (valido)
+                    if (valido &&  )
                     {
+
                         var itemValido = new ResultadoItem()
                         {
                             Id = Id++,
-                            DateTime = sinais.Key.AddDays(1).AddHours(Consulta.Timezone),
+                            DateTime = horaConvertida,
                             Ordem = stringOrdem,
                             Paridade = paridade,
                             Porcentagem = ordem.Porcentagem,

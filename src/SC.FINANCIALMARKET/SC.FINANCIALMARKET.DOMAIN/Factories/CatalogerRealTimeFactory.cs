@@ -141,7 +141,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     }
                     var horaConvertida = sinais.Key.AddDays(1).AddHours(Consulta.Timezone);
 
-                    if (valido &&  )
+                    if (valido && horaConvertida.Hour < 19)
                     {
 
                         var itemValido = new ResultadoItem()

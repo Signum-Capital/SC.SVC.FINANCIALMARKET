@@ -218,16 +218,18 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                             if (candleGales.Count > Consulta.Gale + 1)
                                 candleGales = candleGales.GroupBy(e => e.Data).Select(e => e.First()).ToList();
 
+                            candleGales = candleGales.OrderBy(e=>e.Data).ToList();
+
                             candleDias.Add(candleGales);
                         }
 
                         var valid = Consulta.Tendencia switch
                         {
                             -1 => Get1Dia(candleDias),
-                            5 => candleDias[0][candleDias[0].Count - 1].Tendencia5,
-                            10 => candleDias[0][candleDias[0].Count - 1].Tendencia10,
-                            15 => candleDias[0][candleDias[0].Count - 1].Tendencia15,
-                            30 => candleDias[0][candleDias[0].Count - 1].Tendencia30,
+                            5 => candleDias[0][0].Tendencia5,
+                            10 => candleDias[0][0].Tendencia10,
+                            15 => candleDias[0][0].Tendencia15,
+                            30 => candleDias[0][0].Tendencia30,
                             _ => true
                         };
 

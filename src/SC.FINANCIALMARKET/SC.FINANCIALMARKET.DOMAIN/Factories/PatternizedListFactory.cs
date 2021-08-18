@@ -22,7 +22,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         {
 
             var ListaBruta = Entrada.Lista.Split('\n');
-
+            var horario = 0;
             List<ResultadoSinal> ListaTratada = new List<ResultadoSinal>();
 
             foreach (var linha in ListaBruta)
@@ -30,11 +30,12 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                 var colunas = linha.Split(',', ';', ' ');
 
                 var res = new ResultadoSinal();
+                
 
                 for (int i = 0; i < colunas.Length; i++)
                 {
                     var parametro = colunas[i].Trim('\"');
-
+                    
                     if (RegexHora.IsMatch(parametro))
                     {
                         var hora = parametro.Split(':');
@@ -44,6 +45,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     {
                         var time = parametro.Replace("M", "").Replace("m", "");
                         res.Timeframe = Int32.Parse(time);
+                        horario = res.Timeframe = Int32.Parse(time); 
                     }
                     else if (RegexOrdem.IsMatch(parametro))
                     {
@@ -57,6 +59,11 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     {
                         var gale = parametro.Replace("G", "").Replace("g", "");
                         res.Gale = Int32.Parse(gale);
+                    }
+
+                    if (res.Timeframe == 0)
+                    {
+                        res.Timeframe = horario;
                     }
 
                 }

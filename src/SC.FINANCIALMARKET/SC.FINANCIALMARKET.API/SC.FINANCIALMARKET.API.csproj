@@ -12,8 +12,8 @@
     <PackageReference Include="KissLog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-    <PackageReference Include="SC.INFRA.INFRAESTRUCTURE" Version="3.0.2" />
-    <PackageReference Include="SC.PKG.SERVICES" Version="1.5.1" />
+    <PackageReference Include="SC.INFRA.INFRAESTRUCTURE" Version="3.1.1" />
+    <PackageReference Include="SC.PKG.SERVICES" Version="1.5.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 

@@ -70,7 +70,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                     if (res.Gale == 0)
                     {
-                        res.Timeframe = galeSet;
+                        res.Gale = galeSet;
                     }
 
                 }

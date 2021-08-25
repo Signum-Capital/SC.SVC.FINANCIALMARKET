@@ -34,7 +34,32 @@ namespace SC.FINANCIALMARKET.API.Areas.V2.Controllers
             {
                 return BadRequest(e.Message);
             }
-            
+
+        }
+
+        [HttpPost("WithFooter")]
+        public IActionResult CheckListWithFooter(EntradaSinal entradaSinal)
+        {
+            try
+            {
+                //Padronizar a lista//
+                //Transformar no objeto ResultadoSinal//                        
+                var listaTratada = new PatternizedListFactory(entradaSinal).Produce();
+
+                //Pega o resultados dos candles da lista//
+                var listaResultados = new CollectResultCandleFactory(listaTratada).Produce();
+
+                //Retorna o rodapé da lista
+                var listaRodape = new GetFooterFactory(listaResultados).Produce();
+
+                //Retorna lista
+                return Ok(listaRodape);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
     }
 }

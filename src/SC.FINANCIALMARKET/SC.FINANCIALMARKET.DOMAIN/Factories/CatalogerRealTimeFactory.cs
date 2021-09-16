@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+
 namespace SC.FINANCIALMARKET.DOMAIN.Factories
 {
     public class CatalogerRealTimeFactory : Factory<object>
@@ -28,12 +29,12 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
 
         public IClientProxy ClientProxy { get; }
-        public Consulta Consulta { get; }
+        public ConsultaRequest Consulta { get; }
         public FinancialMarketDataContext FinancialMarketDataContext { get; }
         public string ConnectionId { get; }
         public string[] Paridades { get; set; }
 
-        public CatalogerRealTimeFactory(Consulta consulta, string connectionId, IHubContext<CatalogadorHub> hubContext)
+        public CatalogerRealTimeFactory(ConsultaRequest consulta, string connectionId, IHubContext<CatalogadorHub> hubContext)
         {
             Consulta = consulta;
             FinancialMarketDataContext = new FinancialMarketDataContext();
@@ -46,7 +47,14 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             Paridades = Consulta.Paridades.ToUpper().Replace(" ", "").Split(",");
 
             Query().ConfigureAwait(true);
+
+
+
             return Resultado.ResultadoItens.ToList();
+
+   
+
+
         }
 
         /// <summary>
@@ -68,6 +76,8 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         Dictionary<DateTime, Ordem> PorcentagemOrdem = CarregaOrdemPorcentagem(SinaisHorarios);
                         var listaAAdicionar = CarregarResultadoItens(SinaisHorarios, PorcentagemOrdem, paridade);
 
+
+
                         if (Canceled)
                             break;
                     }
@@ -79,14 +89,14 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                 await ClientProxy.SendAsync("RecieveResult", ConnectionId, "FINISH");
 
-                Resultado.ResultadoItens = ListaCompleta;
+
             }
         }
 
         private ICollection<ResultadoItem> CarregarResultadoItens(Dictionary<DateTime, List<List<Candle>>> sinaisHorarios, Dictionary<DateTime, Ordem> porcentagemOrdem, string paridade)
         {
             var result = new List<ResultadoItem>();
-
+            List<ResultadoItem> listaCasada = null;
             if (sinaisHorarios != null)
             {
                 ClientProxy.SendAsync("RecieveResult", ConnectionId, "{\"START\": { \"MAX_ITEMS\": " + sinaisHorarios.Count + ", \"PARIDADE\": \"" + paridade + "\"} }");
@@ -100,7 +110,14 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         break;
                     }
 
+
+
                     var ordem = porcentagemOrdem[sinais.Key];
+
+                    
+
+
+
                     var stringOrdem = ordem.OrdemCandle.HasValue ? ordem.OrdemCandle == OrderDirection.Put ? "VENDA" : "COMPRA" : "NEUTRO";
 
                     var valido = false;
@@ -141,6 +158,8 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                     }
                     var horaConvertida = sinais.Key.AddDays(1).AddHours(Consulta.Timezone);
 
+
+
                     if (valido && horaConvertida.Hour < 19)
                     {
 
@@ -156,7 +175,33 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                             ResultadoCandles = GetResultadoCandle(sinais.Value)
                         };
 
-                        ClientProxy.SendAsync("RecieveResult", ConnectionId, JsonSerializer.Serialize(itemValido));
+                        if (Consulta.sinalCasadoA != 0 && Consulta.sinalCasadoB != 0 )
+                        {
+                            if (listaCasada == null && Consulta.sinalCasadoA == itemValido.Porcentagem)
+                            {
+                                listaCasada.Add(itemValido);
+                                continue;
+                            }
+                            else if (listaCasada != null && Consulta.sinalCasadoB == itemValido.Porcentagem)
+                            {
+                                listaCasada.Add(itemValido);
+
+                                foreach (var item in listaCasada)
+                                {
+                                    ClientProxy.SendAsync("RecieveResult", ConnectionId, JsonSerializer.Serialize(item));
+                                }
+                            }
+                            else
+                            {
+                                listaCasada = null;
+                            }
+                        }
+                        else
+                        {
+                            ClientProxy.SendAsync("RecieveResult", ConnectionId, JsonSerializer.Serialize(itemValido));
+                        }
+                        
+
                     }
                 }
             }
@@ -342,22 +387,22 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
             return Convert.ToDouble(list.Where(e => e.Abertura < e.Fechamento).Count()) / Convert.ToDouble(list.Count) * 100;
         }
 
-        public void SalvarConfiguracao(int salaId)
-        {
-            if (!FinancialMarketDataContext.Consultas.Any(e => e.Gale == Consulta.Gale &&
-                                             e.Paridades == Consulta.Paridades &&
-                                             e.PorcentagemVelas == Consulta.PorcentagemVelas &&
-                                             e.Tendencia == Consulta.Tendencia &&
-                                             e.TimeFrame == Consulta.TimeFrame &&
-                                             e.TotalDias == Consulta.TotalDias &&
-                                             e.TotalLoss == Consulta.TotalLoss &&
-                                             e.SalaId == salaId))
-            {
-                Consulta.SalaId = salaId;
-                FinancialMarketDataContext.Consultas.Add(Consulta);
-                FinancialMarketDataContext.SaveChanges();
-            }
-        }
+        //public void SalvarConfiguracao(int salaId)
+        //{
+        //    if (!FinancialMarketDataContext.Consultas.Any(e => e.Gale == Consulta.Gale &&
+        //                                     e.Paridades == Consulta.Paridades &&
+        //                                     e.PorcentagemVelas == Consulta.PorcentagemVelas &&
+        //                                     e.Tendencia == Consulta.Tendencia &&
+        //                                     e.TimeFrame == Consulta.TimeFrame &&
+        //                                     e.TotalDias == Consulta.TotalDias &&
+        //                                     e.TotalLoss == Consulta.TotalLoss &&
+        //                                     e.SalaId == salaId))
+        //    {
+        //        Consulta.SalaId = salaId;
+        //        FinancialMarketDataContext.Consultas.Add(Consulta);
+        //        FinancialMarketDataContext.SaveChanges();
+        //    }
+        //}
 
     }
 }

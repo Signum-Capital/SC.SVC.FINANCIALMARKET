@@ -26,7 +26,25 @@ namespace SC.FINANCIALMARKET.API.Areas.V1.Controllers
         {
             var consulta = ConvertObject.Convert<Consulta>(consultaRequest);
             var factory = new CatalogerFactory(consulta, FinancialMarketDataContext).Produce();
-            return ResultAsModel(factory);
+            List<ResultadoItem> lista = new List<ResultadoItem>();
+
+            var n1 = 75;
+            var n2 = 88;
+
+            for (int i = 0; i < factory.Count - 1; i++)
+            {
+                for (int j = i + 1; j < factory.Count; j++)
+                {
+                    if (factory[i].Porcentagem == n1 && factory[j].Porcentagem == n2)
+                    {
+                        lista.Add(factory[i]);
+                        lista.Add(factory[j]);
+                    }
+                }
+            }
+
+            //return ResultAsModel(factory);
+            return ResultAsModel(lista);
         }
 
         [HttpGet("CollectCandles")]

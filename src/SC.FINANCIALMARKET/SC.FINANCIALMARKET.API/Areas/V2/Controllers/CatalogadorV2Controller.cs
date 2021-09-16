@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using SC.FINANCIALMARKET.API.Models;
+
+
 using SC.FINANCIALMARKET.DOMAIN.Factories;
 using SC.FINANCIALMARKET.DOMAIN.Hubs;
+using SC.FINANCIALMARKET.DOMAIN.Models;
 using SC.FINANCIALMARKET.DOMAIN.Services;
 using SC.INFRA.INFRAESTRUCTURE.Contexts;
 using SC.INFRA.INFRAESTRUCTURE.DB.FINANCIALMARKETDATA;
@@ -38,8 +40,9 @@ namespace SC.FINANCIALMARKET.API.Areas.V2.Controllers
             //else if (usuplat.Expiracao < DateTime.UtcNow)
             //    return Result(null,"TIME_EXPIRED",false);
 
-            var consulta = ConvertObject.Convert<Consulta>(consultaRequest);
+            var consulta = consultaRequest;
             consulta.Data = DateTime.Now;
+            
             consulta.Timezone = -3;
 
             new CatalogerRealTimeFactory(consulta, consultaRequest.ConnectionId, _hubContext).Produce();

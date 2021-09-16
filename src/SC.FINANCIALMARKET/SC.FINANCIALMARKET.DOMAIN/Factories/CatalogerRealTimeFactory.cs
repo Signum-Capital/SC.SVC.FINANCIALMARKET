@@ -124,6 +124,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                         if (ordem.Porcentagem < Consulta.PorcentagemVelas)
                         {
                             valido = false;
+                            listaCasada.Clear();
                             break;
                         }
 

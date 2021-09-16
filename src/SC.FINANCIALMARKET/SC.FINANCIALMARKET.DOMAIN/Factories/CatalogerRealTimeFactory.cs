@@ -96,7 +96,7 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
         private ICollection<ResultadoItem> CarregarResultadoItens(Dictionary<DateTime, List<List<Candle>>> sinaisHorarios, Dictionary<DateTime, Ordem> porcentagemOrdem, string paridade)
         {
             var result = new List<ResultadoItem>();
-            List<ResultadoItem> listaCasada = null;
+            List<ResultadoItem> listaCasada = new List<ResultadoItem>();
             if (sinaisHorarios != null)
             {
                 ClientProxy.SendAsync("RecieveResult", ConnectionId, "{\"START\": { \"MAX_ITEMS\": " + sinaisHorarios.Count + ", \"PARIDADE\": \"" + paridade + "\"} }");
@@ -113,10 +113,6 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
 
                     var ordem = porcentagemOrdem[sinais.Key];
-
-                    
-
-
 
                     var stringOrdem = ordem.OrdemCandle.HasValue ? ordem.OrdemCandle == OrderDirection.Put ? "VENDA" : "COMPRA" : "NEUTRO";
 
@@ -177,12 +173,12 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
 
                         if (Consulta.sinalCasadoA != 0 && Consulta.sinalCasadoB != 0 )
                         {
-                            if (listaCasada == null && Consulta.sinalCasadoA == itemValido.Porcentagem)
+                            if (listaCasada.Any() == false && Consulta.sinalCasadoA == itemValido.Porcentagem)
                             {
                                 listaCasada.Add(itemValido);
                                 continue;
                             }
-                            else if (listaCasada != null && Consulta.sinalCasadoB == itemValido.Porcentagem)
+                            else if (listaCasada.Any() == true && Consulta.sinalCasadoB == itemValido.Porcentagem)
                             {
                                 listaCasada.Add(itemValido);
 
@@ -190,10 +186,12 @@ namespace SC.FINANCIALMARKET.DOMAIN.Factories
                                 {
                                     ClientProxy.SendAsync("RecieveResult", ConnectionId, JsonSerializer.Serialize(item));
                                 }
+
+                                listaCasada.Clear();
                             }
                             else
                             {
-                                listaCasada = null;
+                                listaCasada.Clear();
                             }
                         }
                         else
